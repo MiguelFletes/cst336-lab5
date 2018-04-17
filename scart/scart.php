@@ -33,8 +33,10 @@
                 <!-- Cart Items -->
                 
                 <?php
+                    include 'function.php';
                     if(isset($_SESSION['cart'])) {
-                        echo $_SESSION['cart'];
+                        //echo $_SESSION['cart'];
+                        displayCart();
                     }
                 ?>
 

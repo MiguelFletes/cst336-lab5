@@ -1,6 +1,7 @@
 
 <?php
-    function displayResults() {
+session_start();
+    /*function displayResults() {
         global $items;
         //access the global $items array
         if(isset($items)) {
@@ -26,5 +27,83 @@
             }
             echo "</table>";
         }
+    }*/
+    
+  function displayResults(){
+      // access the $items array
+      global $items;
+      
+      if(isset($items)){
+          echo "<table>";
+          foreach($items as $item)
+          {
+              $itemName = $item['name'];
+              $itemPrice = $item['salesPrice'];
+              $itemImage = $item['thumbnailImage'];
+              $itemId = $item['itemId'];
+             
+              echo '<tr>';
+              echo "<td><img = src='$itemImage'></td>";
+              echo "<td><h4>$itemName</h4></td>";
+              echo "<td><h4>$itemPrice</h4></td>";
+              
+              echo "<form method = 'post'>";
+              echo "<input type='hidden' name='itemName' value='$itemName'>";
+              echo "<input type='hidden' name='itemId' value='$itemId'>";
+              echo "<input type='hidden' name='itemImage' value='$itemImage'>";
+              echo "<input type='hidden' name='itemPrice' value='$itemPrice'>";
+              
+              if(isset($_POST['itemId']) && $_POST['itemId'] == $itemId ){
+                echo "<td><button class='btn-success'>Added</button></td>";
+              }
+              else{
+                echo "<td><button class='btn-warning'>Add</button></td>";
+              }
+              echo "</form>";
+              echo "</tr>";
+          }
+          echo "</table>";
+          
+      }
+  }  
+  
+  function displayCart(){
+    if(isset($_SESSION['cart'])){
+      echo "<table class='table'>";
+      foreach($_SESSION['cart'] as $item){
+        $itemName = $item['name'];
+        $itemPrice = $item['salesPrice'];
+        $itemImage = $item['thumbnailImage'];
+        $itemId = $item['itemId'];
+        $itemQuant = $item['quantity'];
+        
+        echo "<tr>";
+          if ($itemImage)
+                echo "<input type='hidden' name='itemImage' value='$itemImage'>"; 
+        // echo "<td><img src='$itemImage'></td>";
+        echo "<td><h4>$itemName</h4></td>";
+        echo "<td><h4>$$itemPrice</h4></td>";
+        // echo "<td><h4>$itemQuant</h4></td>";
+        echo '<form method ="post">';
+        echo "<input type='hidden' name='itemId' value='$itemId'>";
+        echo "<td><input type='text' name='update' class='form-control' placeHolder='$itemQuant'></td>";
+        echo '<td><button class="btn btn-danger">Update</button></td>';
+        echo '</form>';
+        
+        echo "<form method='post'>";
+        echo "<input type='hidden' name='removeId' value='$itemId'>";
+        echo "<td><button class='btn btn-danger'>Remove</button></td>";
+        echo "</form>";
+        
+        echo "</tr>";
+      }
+      echo "</table>";
     }
+  }
+  
+  function displayCartCount(){
+    echo count($_SESSION['cart']);
+  }
+  
+
 ?>
